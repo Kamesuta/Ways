@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ways",
+  "name": "Ways",
+  "description": "Minecraft Mod for a player who has lack of a sense of direction",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Kamesuta"],
+  "credits": "©2016 TeamFruit",
+  "logoFile": "mcicon.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
