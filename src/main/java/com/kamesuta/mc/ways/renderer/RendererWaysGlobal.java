@@ -7,19 +7,16 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.culling.Frustrum;
 import net.minecraft.profiler.Profiler;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 @SideOnly(Side.CLIENT)
-public class RenderWays {
-	public static final RenderWays INSTANCE = new RenderWays();
+public class RendererWaysGlobal {
+	public static final RendererWaysGlobal INSTANCE = new RendererWaysGlobal();
 	private final Minecraft minecraft = Minecraft.getMinecraft();
 	private final Profiler profiler = this.minecraft.mcProfiler;
 
-	private final Frustrum frustrum = new Frustrum();
-
-	private RenderWays() {
+	private RendererWaysGlobal() {
 	}
 
 	@SubscribeEvent
@@ -66,6 +63,8 @@ public class RenderWays {
 		GL11.glVertex3d(minX, maxY, minZ);
 		GL11.glVertex3d(maxX, maxY, minZ);
 		GL11.glVertex3d(minX, maxY, maxZ);
+		GL11.glVertex3d(maxX, maxY+1, minZ);
+		GL11.glVertex3d(minX, maxY+1, maxZ);
 
 		GL11.glEnd();
 
