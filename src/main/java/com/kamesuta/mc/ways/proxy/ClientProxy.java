@@ -11,6 +11,8 @@ import com.kamesuta.mc.ways.handler.client.OverlayHandler;
 import com.kamesuta.mc.ways.handler.client.TickHandler;
 import com.kamesuta.mc.ways.reference.Reference;
 import com.kamesuta.mc.ways.renderer.RendererWaysGlobal;
+import com.kamesuta.mc.ways.world.storage.Way;
+import com.kamesuta.mc.ways.world.way.WayFormat;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -29,9 +31,11 @@ public class ClientProxy extends CommonProxy {
 	public static ForgeDirection orientation = ForgeDirection.UNKNOWN;
 	public static int rotationRender = 0;
 
+	public static Way way = null;
+
 	public static MovingObjectPosition movingObjectPosition = null;
 
-	private static final Minecraft MINECRAFT = Minecraft.getMinecraft();
+	public static final Minecraft MINECRAFT = Minecraft.getMinecraft();
 
 	public static void setPlayerData(EntityPlayer player, float partialTicks) {
 		playerPosition.x = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
@@ -94,6 +98,33 @@ public class ClientProxy extends CommonProxy {
 			Reference.logger.debug("Could not canonize path!", e);
 		}
 		return file;
+	}
+
+    @Override
+    public void newWay() {
+        way = new Way();
+    }
+
+	@Override
+	public void unloadWay() {
+		way = null;
+	}
+
+	@Override
+	public boolean loadWay(EntityPlayer player, File directory, String filename) {
+		way = WayFormat.getFormat().readFromFile(directory, filename);
+
+		return true;
+	}
+
+	public boolean saveWay(File directory, String filename) {
+		try {
+			WayFormat.getFormat().writeToFile(directory, filename, way);
+			return true;
+		} catch (Exception e) {
+			Reference.logger.error("Failed to save way!", e);
+		}
+		return false;
 	}
 
 	@Override

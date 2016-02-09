@@ -11,7 +11,7 @@ public class Reference {
     public static final String MINECRAFT = "${mcversion}";
     public static final String PROXY_SERVER = "com.kamesuta.mc.ways.proxy.ServerProxy";
     public static final String PROXY_CLIENT = "com.kamesuta.mc.ways.proxy.ClientProxy";
-    //public static final String GUI_FACTORY = "com.github.lunatrius.schematica.client.gui.GuiFactory";
+    public static final String GUI_FACTORY = "com.kamesuta.mc.ways.client.gui.GuiFactory";
 
     public static Logger logger = LogManager.getLogger(Reference.MODID);
 }

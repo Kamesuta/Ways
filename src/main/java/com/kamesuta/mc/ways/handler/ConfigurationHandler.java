@@ -22,13 +22,15 @@ public class ConfigurationHandler {
 	public static final String WAYS_DIRECTORY_STR = "ways";
 	public static final File WAYS_DIRECTORY_DEFAULT = new File(Ways.proxy.getDataDirectory(), WAYS_DIRECTORY_STR);
 	public static final int PLAYER_QUOTA_KILOBYTES_DEFAULT = 8192;
+	public static final double WAY_OFFSET_DEFAULT = 0.5;
 
 	public static File waysDirectory = WAYS_DIRECTORY_DEFAULT;
 	public static int playerQuotaKilobytes = PLAYER_QUOTA_KILOBYTES_DEFAULT;
+	public static double wayOffset = WAY_OFFSET_DEFAULT;
 
 	public static Property propWaysDirectory = null;
-
 	public static Property propPlayerQuotaKilobytes = null;
+	public static Property propWayOffset = null;
 
 	public static void init(File configFile) {
 		if (configuration == null) {
@@ -61,6 +63,13 @@ public class ConfigurationHandler {
 				PLAYER_QUOTA_KILOBYTES_DEFAULT, Names.Config.PLAYER_QUOTA_KILOBYTES_DESC);
 		propPlayerQuotaKilobytes.setLanguageKey(Names.Config.LANG_PREFIX + "." + Names.Config.PLAYER_QUOTA_KILOBYTES);
 		playerQuotaKilobytes = propPlayerQuotaKilobytes.getInt(PLAYER_QUOTA_KILOBYTES_DEFAULT);
+
+		propWayOffset = configuration.get(Names.Config.Category.RENDER, Names.Config.WAY_OFFSET,
+				WAY_OFFSET_DEFAULT, Names.Config.WAY_OFFSET_DESC);
+		propWayOffset.setLanguageKey(Names.Config.LANG_PREFIX + "." + Names.Config.WAY_OFFSET);
+		propWayOffset.setMaxValue(2.0);
+		propWayOffset.setMinValue(0);
+		wayOffset = propWayOffset.getDouble();
 
 		Ways.proxy.createFolders();
 

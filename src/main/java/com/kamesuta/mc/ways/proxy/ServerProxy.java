@@ -23,6 +23,11 @@ public class ServerProxy extends CommonProxy {
     }
 
     @Override
+    public boolean loadWay(EntityPlayer player, File directory, String filename) {
+        return false;
+    }
+
+    @Override
     public boolean isPlayerQuotaExceeded(EntityPlayer player) {
         int spaceUsed = 0;
 
@@ -68,4 +73,9 @@ public class ServerProxy extends CommonProxy {
             return new File(playerDir, "public");
         }
     }
+
+	@Override
+	public boolean saveWay(File directory, String filename) {
+		return false;
+	}
 }

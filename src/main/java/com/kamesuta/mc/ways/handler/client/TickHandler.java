@@ -1,16 +1,20 @@
 package com.kamesuta.mc.ways.handler.client;
 
+import com.kamesuta.mc.ways.Ways;
+import com.kamesuta.mc.ways.proxy.ClientProxy;
 import com.kamesuta.mc.ways.reference.Reference;
+import com.kamesuta.mc.ways.world.storage.Node;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.util.MathHelper;
 
 public class TickHandler {
 	public static final TickHandler INSTANCE = new TickHandler();
 
-	private final Minecraft minecraft = Minecraft.getMinecraft();
+	private Node cache;
 
 	private TickHandler() {
 	}
@@ -28,9 +32,21 @@ public class TickHandler {
 	@SubscribeEvent
 	public void onClientTick(TickEvent.ClientTickEvent event) {
 		if (event.phase == TickEvent.Phase.END) {
-			this.minecraft.mcProfiler.startSection("schematica");
+			ClientProxy.MINECRAFT.mcProfiler.startSection("ways");
 
-			this.minecraft.mcProfiler.endSection();
+			EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
+			if (player != null && ClientProxy.way != null && Ways.proxy.isRecording)
+			{
+				Node now = new Node(MathHelper.floor_double_long(player.posX), MathHelper.floor_double_long(player.posY), MathHelper.floor_double_long(player.posZ));
+				if (!now.equals(cache))
+				{
+					ClientProxy.way.addLast(now);
+				}
+				cache = now;
+
+			}
+
+			ClientProxy.MINECRAFT.mcProfiler.endSection();
 		}
 	}
 }

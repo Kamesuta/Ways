@@ -13,6 +13,10 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class CommonProxy {
+    public boolean isRecording = false;
+    public boolean isSaveEnabled = true;
+    public boolean isLoadEnabled = true;
+
 	public void preInit(FMLPreInitializationEvent event) {
 		Reference.logger = event.getModLog();
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
@@ -56,6 +60,16 @@ public abstract class CommonProxy {
 
 		return subDirectory;
 	}
+
+    public void newWay() {
+    }
+
+    public void unloadWay() {
+    }
+
+    public abstract boolean saveWay(File directory, String filename);
+
+	public abstract boolean loadWay(EntityPlayer player, File directory, String filename);
 
 	public abstract boolean isPlayerQuotaExceeded(EntityPlayer player);
 
