@@ -40,7 +40,7 @@ public class TickHandler {
 				Node now = new Node(MathHelper.floor_double_long(player.posX), MathHelper.floor_double_long(player.posY), MathHelper.floor_double_long(player.posZ));
 				if (!now.equals(cache))
 				{
-					ClientProxy.way.addLast(now);
+					ClientProxy.way.waylist().add(now);
 				}
 				cache = now;
 

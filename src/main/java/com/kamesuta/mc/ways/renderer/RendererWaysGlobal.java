@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.lwjgl.opengl.GL11;
 
+import com.kamesuta.mc.ways.Ways;
 import com.kamesuta.mc.ways.handler.ConfigurationHandler;
 import com.kamesuta.mc.ways.proxy.ClientProxy;
 import com.kamesuta.mc.ways.world.storage.Node;
@@ -30,22 +31,13 @@ public class RendererWaysGlobal {
 		if (player != null) {
 			this.profiler.startSection("ways");
             Way way = ClientProxy.way;
-            if ((way != null/* && schematic.isRendering*/)/* || ClientProxy.isRenderingGuide*/) {
+            if ((way != null && Ways.proxy.isRecording)/* || ClientProxy.isRenderingGuide*/) {
             	render(way, event.partialTicks, player);
             }
 			this.profiler.endSection();
 		}
 	}
 
-	// public void render(EntityPlayerSP player) {
-	// GL11.glPushMatrix();
-	// GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-	// GL11.glEnable(GL11.GL_BLEND);
-	//
-	// GL11.glTranslated(-playerPosition.x, -playerPosition.y,
-	// -playerPosition.z);
-	//
-	// }
 	public void render(Way way, float partialTicks, EntityPlayerSP player) {
 		double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
 		double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
@@ -61,19 +53,20 @@ public class RendererWaysGlobal {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
 
-		GL11.glColor4f(1f, 1f, 1f, 0.15f);
+		GL11.glColor4f(1f, 1f, 1f, 0.25f);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
+
 		double pitch = ConfigurationHandler.wayOffset;
-		for (Iterator<Node> it = way.iterator(); it.hasNext();)
+		for (Iterator<Node> it = way.waylist().iterator(); it.hasNext();)
 		{
 			Node now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
 		}
 		GL11.glEnd();
 
-		GL11.glColor4f(1f, 1f, 1f, 0.3f);
+		GL11.glColor4f(1f, 1f, 1f, 0.5f);
 		GL11.glBegin(GL11.GL_POINTS);
-		for (Iterator<Node> it = way.iterator(); it.hasNext();)
+		for (Iterator<Node> it = way.waylist().iterator(); it.hasNext();)
 		{
 			Node now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
@@ -84,6 +77,7 @@ public class RendererWaysGlobal {
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();
 	}
+
 /*	public void render(Way way, float partialTicks, EntityPlayerSP player) {
 		double x = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
 		double y = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
@@ -99,27 +93,46 @@ public class RendererWaysGlobal {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
 
-		GL11.glColor4f(1f, 1f, 1f, 0.15f);
-		GL11.glBegin(GL11.GL_LINE_STRIP);
+		GL11.glColor4f(1f, 1f, 1f, 0.25f);
 		double pitch = ConfigurationHandler.wayOffset;
-		for (Iterator<Node> it = way.iterator(); it.hasNext();)
+		ArrayList<Node> waylist = way.waylist();
+		GL11.glEnable(GL11.GL_MAP1_VERTEX_3);
+		for (int i = 0; i < waylist.size()-7; i += 2)
 		{
-			Node now = it.next();
-			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
+			renderBezier(waylist.subList(i, i+3));
+//			GL11.glVertex3d(n.getX()+0.5, n.getY()+pitch, n.getZ()+0.5);
 		}
-		GL11.glEnd();
 
 		GL11.glColor4f(1f, 1f, 1f, 0.3f);
 		GL11.glBegin(GL11.GL_POINTS);
-		for (Iterator<Node> it = way.iterator(); it.hasNext();)
+		for (Node n : way.waylist())
 		{
-			Node now = it.next();
-			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
+			GL11.glVertex3d(n.getX()+0.5, n.getY()+pitch, n.getZ()+0.5);
 		}
 		GL11.glEnd();
 
 		// cleanup
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glPopMatrix();
-	}*/
+	}
+
+	private void renderBezier(List<Node> waylist) {
+		FloatBuffer buf = BufferUtils.createFloatBuffer(waylist.size() * 6);
+		for (int i = 0; i < waylist.size(); i ++) {
+			Node n = waylist.get(i);
+			buf.put(i*3, (float) n.getX());
+			buf.put(i*3+1, (float) n.getY());
+			buf.put(i*3+2, (float) n.getZ());
+			buf.put(i*3+3, (float) n.getX());
+			buf.put(i*3+4, (float) n.getY());
+			buf.put(i*3+5, (float) n.getZ());
+		}
+		GL11.glMap1f(GL11.GL_MAP1_VERTEX_3, 0.0f, 1.0f, 3, 4, buf);
+		GL11.glBegin(GL11.GL_LINE_STRIP);
+		for (int i = 0; i < 24; i ++) {
+			GL11.glEvalCoord1f(i / 24.0f);
+		}
+		GL11.glEnd();
+	}
+*/
 }
