@@ -1,38 +1,38 @@
 package com.kamesuta.mc.ways.util.vector;
 
-public class Vector3i extends Vector2i {
-    public int z;
+public class Vector3l extends Vector2l {
+    public long z;
 
-    public Vector3i() {
+    public Vector3l() {
         this(0, 0, 0);
     }
 
-    public Vector3i(Vector3i vec) {
+    public Vector3l(Vector3l vec) {
         this(vec.x, vec.y, vec.z);
     }
 
-    public Vector3i(int num) {
+    public Vector3l(long num) {
         this(num, num, num);
     }
 
-    public Vector3i(int x, int y, int z) {
+    public Vector3l(long x, long y, long z) {
         super(x, y);
         this.z = z;
     }
 
-    public final int getZ() {
+    public final long getZ() {
         return this.z;
     }
 
-    public final void setZ(int z) {
+    public final void setZ(long z) {
         this.z = z;
     }
 
-    public Vector3i set(Vector3i vec) {
+    public Vector3l set(Vector3l vec) {
         return set(vec.x, vec.y, vec.z);
     }
 
-    public Vector3i set(int x, int y, int z) {
+    public Vector3l set(long x, long y, long z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -40,72 +40,72 @@ public class Vector3i extends Vector2i {
     }
 
     @Override
-    public int lengthSquared() {
+    public long lengthSquared() {
         return this.x * this.x + this.y * this.y + this.z * this.z;
     }
 
-    public final double lengthTo(Vector3i vec) {
+    public final double lengthTo(Vector3l vec) {
         return Math.sqrt(lengthSquaredTo(vec));
     }
 
-    public int lengthSquaredTo(Vector3i vec) {
+    public long lengthSquaredTo(Vector3l vec) {
         return pow2(this.x - vec.x) + pow2(this.y - vec.y) + pow2(this.z - vec.z);
     }
 
     @Override
-    public Vector3i negate() {
+    public Vector3l negate() {
         this.x = -this.x;
         this.y = -this.y;
         this.z = -this.z;
         return this;
     }
 
-    public double dot(Vector3i vec) {
+    public double dot(Vector3l vec) {
         return this.x * vec.x + this.y * vec.y + this.z * vec.z;
     }
 
     @Override
-    public Vector3i scale(double scale) {
+    public Vector3l scale(double scale) {
         this.x *= scale;
         this.y *= scale;
         this.z *= scale;
         return this;
     }
 
-    public Vector3i add(Vector3i vec) {
+    public Vector3l add(Vector3l vec) {
         this.x += vec.x;
         this.y += vec.y;
         this.z += vec.z;
         return this;
     }
 
-    public Vector3i add(int x, int y, int z) {
+    public Vector3l add(long x, long y, long z) {
         this.x += x;
         this.y += y;
         this.z += z;
         return this;
     }
 
-    public Vector3i sub(Vector3i vec) {
+    public Vector3l sub(Vector3l vec) {
         this.x -= vec.x;
         this.y -= vec.y;
         this.z -= vec.z;
         return this;
     }
 
-    public Vector3i sub(int x, int y, int z) {
+    public Vector3l sub(long x, long y, long z) {
         this.x -= x;
         this.y -= y;
         this.z -= z;
         return this;
     }
 
-    public Vector3l toVector3l() {
-        return new Vector3l(this.x, this.y, this.z);
+    public Vector3i toVector3i() {
+        return new Vector3i((int) this.x, (int) this.y, (int) this.z);
     }
 
-    public Vector3l toVector3l(Vector3l vec) {
-        return vec.set(this.x, this.y, this.z);
+    public Vector3i toVector3i(Vector3i vec) {
+        return vec.set((int) this.x, (int) this.y, (int) this.z);
     }
 
     public Vector3f toVector3f() {
@@ -125,16 +125,16 @@ public class Vector3i extends Vector2i {
     }
 
     @Override
-    public Vector3i clone() {
-        return new Vector3i(this);
+    public Vector3l clone() {
+        return new Vector3l(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Vector3i && equals((Vector3i) obj);
+        return obj instanceof Vector3l && equals((Vector3l) obj);
     }
 
-    public boolean equals(Vector3i vec) {
+    public boolean equals(Vector3l vec) {
         return this.x == vec.x && this.y == vec.y && this.z == vec.z;
     }
 

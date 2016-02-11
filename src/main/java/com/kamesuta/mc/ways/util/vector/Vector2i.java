@@ -116,6 +116,14 @@ public class Vector2i {
         return this;
     }
 
+    public Vector2l toVector2l() {
+        return new Vector2l(this.x, this.y);
+    }
+
+    public Vector2l toVector2l(Vector2l vec) {
+        return vec.set(this.x, this.y);
+    }
+
     public Vector2f toVector2f() {
         return new Vector2f(this.x, this.y);
     }

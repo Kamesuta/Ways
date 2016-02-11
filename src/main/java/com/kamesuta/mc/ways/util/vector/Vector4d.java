@@ -115,6 +115,14 @@ public class Vector4d extends Vector3d {
         return vec.set((int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z), (int) Math.floor(this.w));
     }
 
+    public Vector4l toVector4l() {
+        return new Vector4l((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z), (long) Math.floor(this.w));
+    }
+
+    public Vector4l toVector4l(Vector4l vec) {
+        return vec.set((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z), (long) Math.floor(this.w));
+    }
+
     public Vector4f toVector4f() {
         return new Vector4f((float) Math.floor(this.x), (float) Math.floor(this.y), (float) Math.floor(this.z), (float) Math.floor(this.w));
     }

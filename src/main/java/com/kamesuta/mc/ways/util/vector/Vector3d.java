@@ -108,6 +108,14 @@ public class Vector3d extends Vector2d {
         return vec.set((int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z));
     }
 
+    public Vector3l toVector3l() {
+        return new Vector3l((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z));
+    }
+
+    public Vector3l toVector3l(Vector3l vec) {
+        return vec.set((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z));
+    }
+
     public Vector3f toVector3f() {
         return new Vector3f((float) Math.floor(this.x), (float) Math.floor(this.y), (float) Math.floor(this.z));
     }

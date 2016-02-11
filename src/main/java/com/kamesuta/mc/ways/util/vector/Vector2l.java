@@ -1,48 +1,47 @@
 package com.kamesuta.mc.ways.util.vector;
 
-public class Vector2f {
-    public static final float FLOAT_EPSILON = 10e-6f;
-    public float x;
-    public float y;
+public class Vector2l {
+    public long x;
+    public long y;
 
-    public Vector2f() {
+    public Vector2l() {
         this(0, 0);
     }
 
-    public Vector2f(Vector2f vec) {
+    public Vector2l(Vector2l vec) {
         this(vec.x, vec.y);
     }
 
-    public Vector2f(float num) {
+    public Vector2l(long num) {
         this(num, num);
     }
 
-    public Vector2f(float x, float y) {
+    public Vector2l(long x, long y) {
         this.x = x;
         this.y = y;
     }
 
-    public final float getX() {
+    public final long getX() {
         return this.x;
     }
 
-    public final float getY() {
+    public final long getY() {
         return this.y;
     }
 
-    public final void setX(float x) {
+    public final void setX(long x) {
         this.x = x;
     }
 
-    public final void setY(float y) {
+    public final void setY(long y) {
         this.y = y;
     }
 
-    public Vector2f set(Vector2f vec) {
+    public Vector2l set(Vector2l vec) {
         return set(vec.x, vec.y);
     }
 
-    public Vector2f set(float x, float y) {
+    public Vector2l set(long x, long y) {
         this.x = x;
         this.y = y;
         return this;
@@ -52,23 +51,23 @@ public class Vector2f {
         return Math.sqrt(lengthSquared());
     }
 
-    public float lengthSquared() {
+    public long lengthSquared() {
         return this.x * this.x + this.y * this.y;
     }
 
-    public final double lengthTo(Vector2f vec) {
+    public final double lengthTo(Vector2l vec) {
         return Math.sqrt(lengthSquaredTo(vec));
     }
 
-    public float lengthSquaredTo(Vector2f vec) {
+    public long lengthSquaredTo(Vector2l vec) {
         return pow2(this.x - vec.x) + pow2(this.y - vec.y);
     }
 
-    protected final float pow2(float num) {
+    protected final long pow2(long num) {
         return num * num;
     }
 
-    public final Vector2f normalize() {
+    public final Vector2l normalize() {
         double len = length();
         if (len != 0.0) {
             return scale(1.0 / len);
@@ -77,60 +76,60 @@ public class Vector2f {
         return this;
     }
 
-    public Vector2f negate() {
+    public Vector2l negate() {
         this.x = -this.x;
         this.y = -this.y;
         return this;
     }
 
-    public float dot(Vector2f vec) {
+    public double dot(Vector2l vec) {
         return this.x * vec.x + this.y * vec.y;
     }
 
-    public Vector2f scale(double scale) {
+    public Vector2l scale(double scale) {
         this.x *= scale;
         this.y *= scale;
         return this;
     }
 
-    public Vector2f add(Vector2f vec) {
+    public Vector2l add(Vector2l vec) {
         this.x += vec.x;
         this.y += vec.y;
         return this;
     }
 
-    public Vector2f add(float x, float y) {
+    public Vector2l add(long x, long y) {
         this.x += x;
         this.y += y;
         return this;
     }
 
-    public Vector2f sub(Vector2f vec) {
+    public Vector2l sub(Vector2l vec) {
         this.x -= vec.x;
         this.y -= vec.y;
         return this;
     }
 
-    public Vector2f sub(float x, float y) {
+    public Vector2l sub(long x, long y) {
         this.x -= x;
         this.y -= y;
         return this;
     }
 
     public Vector2i toVector2i() {
-        return new Vector2i((int) Math.floor(this.x), (int) Math.floor(this.y));
+        return new Vector2i((int) this.x, (int) this.y);
     }
 
     public Vector2i toVector2i(Vector2i vec) {
-        return vec.set((int) Math.floor(this.x), (int) Math.floor(this.y));
+        return vec.set((int) this.x, (int) this.y);
     }
 
-    public Vector2l toVector2l() {
-        return new Vector2l((long) Math.floor(this.x), (long) Math.floor(this.y));
+    public Vector2f toVector2f() {
+        return new Vector2f(this.x, this.y);
     }
 
-    public Vector2l toVector2l(Vector2l vec) {
-        return vec.set((long) Math.floor(this.x), (long) Math.floor(this.y));
+    public Vector2f toVector2f(Vector2f vec) {
+        return vec.set(this.x, this.y);
     }
 
     public Vector2d toVector2d() {
@@ -142,21 +141,17 @@ public class Vector2f {
     }
 
     @Override
-    public Vector2f clone() {
-        return new Vector2f(this);
+    public Vector2l clone() {
+        return new Vector2l(this);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof Vector2f && equals((Vector2f) obj);
+        return obj instanceof Vector2l && equals((Vector2l) obj);
     }
 
-    public boolean equals(Vector2f vec) {
-        return equals(vec, FLOAT_EPSILON);
-    }
-
-    public boolean equals(Vector2f vec, float epsilon) {
-        return Math.abs(this.x - vec.x) < epsilon && Math.abs(this.y - vec.y) < epsilon;
+    public boolean equals(Vector2l vec) {
+        return this.x == vec.x && this.y == vec.y;
     }
 
     @Override

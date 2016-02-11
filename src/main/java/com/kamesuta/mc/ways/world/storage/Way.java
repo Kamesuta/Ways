@@ -5,34 +5,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.kamesuta.mc.ways.util.vector.Vector3l;
+
 public class Way implements Serializable {
-	private final ArrayList<Node> ways;
+	private final ArrayList<Vector3l> ways;
 
 	public int size() {
 		return ways.size();
 	}
 
-	public Way(ArrayList<Node> ways)
+	public Way(ArrayList<Vector3l> ways)
 	{
 		this.ways = ways;
 	}
 
-	public Way(Collection<Node> ways)
+	public Way(Collection<Vector3l> ways)
 	{
-		this(new ArrayList<Node>(ways));
+		this(new ArrayList<Vector3l>(ways));
 	}
 
-	public Way(Node[] ways)
+	public Way(Vector3l[] ways)
 	{
 		this(Arrays.asList(ways));
 	}
 
 	public Way()
 	{
-		this(new ArrayList<Node>());
+		this(new ArrayList<Vector3l>());
 	}
 
-	public ArrayList<Node> waylist()
+	public ArrayList<Vector3l> waylist()
 	{
 		return ways;
 	}

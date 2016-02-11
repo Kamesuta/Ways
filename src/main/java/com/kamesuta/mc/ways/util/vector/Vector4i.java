@@ -107,6 +107,14 @@ public class Vector4i extends Vector3i {
         return this;
     }
 
+    public Vector4l toVector4l() {
+        return new Vector4l((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z), (long) Math.floor(this.w));
+    }
+
+    public Vector4l toVector4l(Vector4l vec) {
+        return vec.set((long) Math.floor(this.x), (long) Math.floor(this.y), (long) Math.floor(this.z), (long) Math.floor(this.w));
+    }
+
     public Vector4f toVector4f() {
         return new Vector4f(this.x, this.y, this.z, this.w);
     }

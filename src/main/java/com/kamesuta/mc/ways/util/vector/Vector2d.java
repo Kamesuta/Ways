@@ -125,6 +125,14 @@ public class Vector2d {
         return vec.set((int) Math.floor(this.x), (int) Math.floor(this.y));
     }
 
+    public Vector2l toVector2l() {
+        return new Vector2l((long) Math.floor(this.x), (long) Math.floor(this.y));
+    }
+
+    public Vector2l toVector2l(Vector2l vec) {
+        return vec.set((long) Math.floor(this.x), (long) Math.floor(this.y));
+    }
+
     public Vector2f toVector2f() {
         return new Vector2f((float) Math.floor(this.x), (float) Math.floor(this.y));
     }

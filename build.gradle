@@ -20,6 +20,7 @@ apply plugin: 'forge'
 version = "1.0"
 group= "com.kamesuta.mc.ways" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Ways"
+tasks.withType(Jar) {compileJava.options.encoding = 'UTF-8'}
 
 minecraft {
     version = "1.7.10-10.13.4.1558-1.7.10"

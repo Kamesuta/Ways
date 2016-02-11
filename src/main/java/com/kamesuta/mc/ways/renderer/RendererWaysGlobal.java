@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import com.kamesuta.mc.ways.Ways;
 import com.kamesuta.mc.ways.handler.ConfigurationHandler;
 import com.kamesuta.mc.ways.proxy.ClientProxy;
-import com.kamesuta.mc.ways.world.storage.Node;
+import com.kamesuta.mc.ways.util.vector.Vector3l;
 import com.kamesuta.mc.ways.world.storage.Way;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -57,18 +57,18 @@ public class RendererWaysGlobal {
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 
 		double pitch = ConfigurationHandler.wayOffset;
-		for (Iterator<Node> it = way.waylist().iterator(); it.hasNext();)
+		for (Iterator<Vector3l> it = way.waylist().iterator(); it.hasNext();)
 		{
-			Node now = it.next();
+			Vector3l now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
 		}
 		GL11.glEnd();
 
 		GL11.glColor4f(1f, 1f, 1f, 0.5f);
 		GL11.glBegin(GL11.GL_POINTS);
-		for (Iterator<Node> it = way.waylist().iterator(); it.hasNext();)
+		for (Iterator<Vector3l> it = way.waylist().iterator(); it.hasNext();)
 		{
-			Node now = it.next();
+			Vector3l now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
 		}
 		GL11.glEnd();
