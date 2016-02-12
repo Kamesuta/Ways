@@ -38,7 +38,7 @@ public class TickHandler {
 			if (player != null && ClientProxy.way != null && Ways.proxy.isRecording)
 			{
 				Vector3l now = new Vector3l(MathHelper.floor_double_long(player.posX), MathHelper.floor_double_long(player.posY), MathHelper.floor_double_long(player.posZ));
-				if (!now.equals(cache))
+				if (cache != null && !now.equals(cache))
 				{
 					ClientProxy.way.waylist().add(now);
 				}
