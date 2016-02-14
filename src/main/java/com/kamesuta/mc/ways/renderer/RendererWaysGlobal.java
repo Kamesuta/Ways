@@ -1,12 +1,13 @@
 package com.kamesuta.mc.ways.renderer;
 
-import java.util.Iterator;
+import java.util.ListIterator;
 
 import org.lwjgl.opengl.GL11;
 
 import com.kamesuta.mc.ways.Ways;
 import com.kamesuta.mc.ways.handler.ConfigurationHandler;
 import com.kamesuta.mc.ways.proxy.ClientProxy;
+import com.kamesuta.mc.ways.util.vector.Vector3f;
 import com.kamesuta.mc.ways.util.vector.Vector3l;
 import com.kamesuta.mc.ways.world.storage.Way;
 
@@ -53,20 +54,21 @@ public class RendererWaysGlobal {
 		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
 
-		GL11.glColor4f(1f, 1f, 1f, 0.25f);
+		GL11.glColor4f(1f, 1f, 1f, 0.75f);
 		GL11.glBegin(GL11.GL_LINE_STRIP);
 
 		double pitch = ConfigurationHandler.wayOffset;
-		for (Iterator<Vector3l> it = way.waylist().iterator(); it.hasNext();)
+		for (ListIterator<Vector3f> it = way.getRenderingWay().listIterator(); it.hasNext();)
 		{
-			Vector3l now = it.next();
+			Vector3f now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
 		}
 		GL11.glEnd();
 
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glColor4f(1f, 1f, 1f, 0.5f);
 		GL11.glBegin(GL11.GL_POINTS);
-		for (Iterator<Vector3l> it = way.waylist().iterator(); it.hasNext();)
+		for (ListIterator<Vector3l> it = way.getWay().listIterator(); it.hasNext();)
 		{
 			Vector3l now = it.next();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);

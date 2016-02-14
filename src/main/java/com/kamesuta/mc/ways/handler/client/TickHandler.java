@@ -40,7 +40,7 @@ public class TickHandler {
 				Vector3l now = new Vector3l(MathHelper.floor_double_long(player.posX), MathHelper.floor_double_long(player.posY), MathHelper.floor_double_long(player.posZ));
 				if (cache != null && !now.equals(cache))
 				{
-					ClientProxy.way.waylist().add(now);
+					ClientProxy.way.getWay().add(now);
 				}
 				cache = now;
 
