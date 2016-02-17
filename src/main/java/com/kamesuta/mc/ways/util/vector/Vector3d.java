@@ -20,6 +20,10 @@ public class Vector3d extends Vector2d implements Vector3 {
 		this.z = z;
 	}
 
+	public Vector3d(Vector3 vec) {
+		vec.toVector3d(this);
+	}
+
 	public final double getZ() {
 		return this.z;
 	}

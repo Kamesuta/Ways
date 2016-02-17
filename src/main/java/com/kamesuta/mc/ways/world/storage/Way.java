@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.ListIterator;
 
+import com.kamesuta.mc.ways.renderer.RenderingPath;
 import com.kamesuta.mc.ways.util.vector.Vector3f;
 import com.kamesuta.mc.ways.util.vector.Vector3l;
 
 public class Way implements Serializable {
 	private final ArrayList<Vector3l> way;
+	private ArrayList<Vector3f> renderingwaypath;
+	private ArrayList<Vector3f> renderingwaypoint;
+	public static final int limit = 5*5;
+	public static final int near = 10;
 
 	public int size() {
 		return way.size();
@@ -41,45 +45,23 @@ public class Way implements Serializable {
 		return way;
 	}
 
-	private ArrayList<Vector3f> renderingway;
-	public ArrayList<Vector3f> getRenderingWay()
+	public ArrayList<Vector3f> getRenderingWayPath(RenderingPath algorithm)
 	{
-		if (renderingway != null && way.size() == renderingway.size())
+		if (renderingwaypath != null && way.size() == renderingwaypath.size())
 		{
-			return renderingway;
+			return renderingwaypath;
 		} else {
-			return renderingway = optimize(way);
+			return renderingwaypath = algorithm.path(way, limit);
 		}
 	}
 
-	public static final int limit = 5*5;
-	public static ArrayList<Vector3f> optimize(ArrayList<Vector3l> sourcelist)
+	public ArrayList<Vector3f> getRenderingWayPoint(RenderingPath algorithm)
 	{
-		ArrayList<Vector3f> out = new ArrayList<Vector3f>();
-		ArrayList<Vector3l> source = new ArrayList<Vector3l>(sourcelist);
-		for (ListIterator<Vector3l> ita = source.listIterator(); ita.hasNext();)
+		if (renderingwaypoint != null && way.size() == renderingwaypoint.size())
 		{
-			Vector3l a = ita.next();
-			if(a != null)
-			{
-				int ni = 1;
-				Vector3f nv = a.toVector3f();
-				for (ListIterator<Vector3l> itb = source.listIterator(ita.nextIndex()); itb.hasNext();)
-				{
-					Vector3l b = itb.next();
-					if(b != null)
-					{
-						if (a.lengthSquaredTo(b) < limit)
-						{
-							nv.add(b.toVector3f());
-							ni++;
-							itb.set(null);
-						}
-					}
-				}
-				out.add(nv.scale(1d/ni));
-			}
+			return renderingwaypoint;
+		} else {
+			return renderingwaypoint = algorithm.point(way, limit);
 		}
-		return out;
 	}
 }

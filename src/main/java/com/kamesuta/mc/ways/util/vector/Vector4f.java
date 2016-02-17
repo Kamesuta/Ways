@@ -20,6 +20,10 @@ public class Vector4f extends Vector3f implements Vector4 {
 		this.w = w;
 	}
 
+	public Vector4f(Vector4 vec) {
+		vec.toVector4f(this);
+	}
+
 	public final float getW() {
 		return this.w;
 	}

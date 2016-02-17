@@ -21,6 +21,10 @@ public class Vector2l implements Vector2 {
 		this.y = y;
 	}
 
+	public Vector2l(Vector2 vec) {
+		vec.toVector2l(this);
+	}
+
 	public final long getX() {
 		return this.x;
 	}

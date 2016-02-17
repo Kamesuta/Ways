@@ -22,6 +22,10 @@ public class Vector2f implements Vector2 {
 		this.y = y;
 	}
 
+	public Vector2f(Vector2 vec) {
+		vec.toVector2f(this);
+	}
+
 	public final float getX() {
 		return this.x;
 	}

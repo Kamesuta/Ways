@@ -21,6 +21,10 @@ public class Vector2i implements Vector2 {
 		this.y = y;
 	}
 
+	public Vector2i(Vector2 vec) {
+		vec.toVector2i(this);
+	}
+
 	public final int getX() {
 		return this.x;
 	}

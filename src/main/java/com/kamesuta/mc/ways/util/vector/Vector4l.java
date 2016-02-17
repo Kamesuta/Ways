@@ -20,6 +20,10 @@ public class Vector4l extends Vector3l implements Vector4 {
 		this.w = w;
 	}
 
+	public Vector4l(Vector4 vec) {
+		vec.toVector4l(this);
+	}
+
 	public final long getW() {
 		return this.w;
 	}

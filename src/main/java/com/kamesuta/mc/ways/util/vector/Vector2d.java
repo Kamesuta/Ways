@@ -22,6 +22,10 @@ public class Vector2d implements Vector2 {
 		this.y = y;
 	}
 
+	public Vector2d(Vector2 vec) {
+		vec.toVector2d(this);
+	}
+
 	public final double getX() {
 		return this.x;
 	}

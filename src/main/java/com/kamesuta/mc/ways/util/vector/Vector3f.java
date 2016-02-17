@@ -20,6 +20,10 @@ public class Vector3f extends Vector2f implements Vector3 {
 		this.z = z;
 	}
 
+	public Vector3f(Vector3 vec) {
+		vec.toVector3f(this);
+	}
+
 	public final float getZ() {
 		return this.z;
 	}

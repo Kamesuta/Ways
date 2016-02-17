@@ -15,6 +15,10 @@ public class Vector4i extends Vector3i implements Vector4 {
 		this(num, num, num, num);
 	}
 
+	public Vector4i(Vector4 vec) {
+		vec.toVector4i(this);
+	}
+
 	public Vector4i(int x, int y, int z, int w) {
 		super(x, y, z);
 		this.w = w;

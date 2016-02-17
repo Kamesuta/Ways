@@ -20,6 +20,10 @@ public class Vector3i extends Vector2i implements Vector3 {
 		this.z = z;
 	}
 
+	public Vector3i(Vector3 vec) {
+		vec.toVector3i(this);
+	}
+
 	public final int getZ() {
 		return this.z;
 	}

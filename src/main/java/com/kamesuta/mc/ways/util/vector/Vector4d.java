@@ -20,6 +20,10 @@ public class Vector4d extends Vector3d implements Vector4 {
 		this.w = w;
 	}
 
+	public Vector4d(Vector4 vec) {
+		vec.toVector4d(this);
+	}
+
 	public final double getW() {
 		return this.w;
 	}
