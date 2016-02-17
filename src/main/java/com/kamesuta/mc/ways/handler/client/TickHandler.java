@@ -3,6 +3,7 @@ package com.kamesuta.mc.ways.handler.client;
 import com.kamesuta.mc.ways.Ways;
 import com.kamesuta.mc.ways.proxy.ClientProxy;
 import com.kamesuta.mc.ways.reference.Reference;
+import com.kamesuta.mc.ways.util.vector.Vector3f;
 import com.kamesuta.mc.ways.util.vector.Vector3l;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -14,7 +15,7 @@ import net.minecraft.util.MathHelper;
 public class TickHandler {
 	public static final TickHandler INSTANCE = new TickHandler();
 
-	private Vector3l cache;
+	private Vector3f cache;
 
 	private TickHandler() {
 	}
@@ -37,7 +38,7 @@ public class TickHandler {
 			EntityPlayerSP player = ClientProxy.MINECRAFT.thePlayer;
 			if (player != null && ClientProxy.way != null && Ways.proxy.isRecording)
 			{
-				Vector3l now = new Vector3l(MathHelper.floor_double_long(player.posX), MathHelper.floor_double_long(player.posY), MathHelper.floor_double_long(player.posZ));
+				Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
 				if (cache != null && !now.equals(cache))
 				{
 					ClientProxy.way.getWay().add(now);

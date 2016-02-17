@@ -1,6 +1,6 @@
 package com.kamesuta.mc.ways.renderer;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 import org.lwjgl.opengl.GL11;
@@ -61,8 +61,8 @@ public class RendererWaysGlobal {
 
 		RenderingPath mode = RenderingPath.Cave;
 
-		ArrayList<Vector3f> path = way.getRenderingWayPath(mode);
-		ArrayList<Vector3f> point = way.getRenderingWayPoint(mode);
+		List<Vector3f> path = way.getRenderingWayPath(mode);
+		List<Vector3f> point = way.getRenderingWayPoint(mode);
 
 		for (ListIterator<Vector3f> it = path.listIterator(); it.hasNext();)
 		{
@@ -76,7 +76,7 @@ public class RendererWaysGlobal {
 		GL11.glBegin(GL11.GL_POINTS);
 		for (ListIterator<Vector3f> it = point.listIterator(); it.hasNext();)
 		{
-			Vector3f now = it.next();
+			Vector3f now = it.next().toVector3f();
 			GL11.glVertex3d(now.getX()+0.5, now.getY()+pitch, now.getZ()+0.5);
 		}
 		GL11.glEnd();
