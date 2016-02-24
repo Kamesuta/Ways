@@ -4,7 +4,6 @@ import com.kamesuta.mc.ways.Ways;
 import com.kamesuta.mc.ways.proxy.ClientProxy;
 import com.kamesuta.mc.ways.reference.Reference;
 import com.kamesuta.mc.ways.util.vector.Vector3f;
-import com.kamesuta.mc.ways.util.vector.Vector3l;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -41,7 +40,7 @@ public class TickHandler {
 				Vector3f now = new Vector3f(MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ));
 				if (cache != null && !now.equals(cache))
 				{
-					ClientProxy.way.getWay().add(now);
+					ClientProxy.way.add(now);
 				}
 				cache = now;
 
