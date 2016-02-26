@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.kamesuta.mc.ways.renderer.RenderingBuffer;
+import com.kamesuta.mc.ways.renderer.RenderingPath;
 import com.kamesuta.mc.ways.util.vector.Vector3f;
 
 public class Way implements Serializable {
@@ -34,7 +35,7 @@ public class Way implements Serializable {
 
 	public void add(Vector3f node) {
 		way.add(node);
-		renderingwaypath.add(node);
+		RenderingPath.Cave.path(node, renderingwaypath, limit);
 	}
 
 	public RenderingBuffer getRenderingWayPath()

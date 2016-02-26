@@ -50,6 +50,7 @@ public class RendererWaysGlobal {
 
 //		GL11.glPushMatrix();
 		GL11.glTranslated(-x, -y, -z);
+		GL11.glTranslated(0.5, -0.5, 0.5);
 
 		GL11.glColor4f(1f, 1f, 1f, 0.75f);
 

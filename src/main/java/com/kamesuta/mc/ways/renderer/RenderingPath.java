@@ -12,41 +12,41 @@ import com.kamesuta.mc.ways.util.vector.Vector3f;
 public enum RenderingPath {
 	Cave {
 		@Override
-		public void pathAll(List<Vector3f> source, RenderingBuffer update, float approach) {
-			for (Vector3f a : source) {
-				path(a, update, approach);
+		public void pathAll(List<Vector3f> update, RenderingBuffer source, float approach) {
+			for (Vector3f a : update) {
+				path(a, source, approach);
 			}
 		}
 
 		@Override
-		public void path(Vector3f source, RenderingBuffer update, float approach) {
-			for (int i = 0; i < update.last(); i++) {
-				Vector3f b = update.get(i);
-				if (source.lengthSquaredTo(b) < approach) {
-					if (0 <= i-1 && b != update.get(i-1))
-						update.add(b);
+		public void path(Vector3f update, RenderingBuffer source, float approach) {
+			for (int i = 0; i < source.size(); i++) {
+				Vector3f b = source.get(i);
+				if (update.lengthSquaredTo(b) < approach) {
+					if (0 <= i-1 && b != source.get(i-1))
+						source.add(b);
 					return;
 				}
 			}
-			update.add(source);
+			source.add(update);
 		}
 
 		@Override
-		public void pointAll(List<Vector3f> source, RenderingBuffer update, float approach) {
-			this.pathAll(source, update, approach);
+		public void pointAll(List<Vector3f> update, RenderingBuffer source, float approach) {
+			this.pathAll(update, source, approach);
 		}
 
 		@Override
-		public void point(Vector3f source, RenderingBuffer update, float approach) {
+		public void point(Vector3f update, RenderingBuffer source, float approach) {
 
 		}
 	};
 
-	public abstract void pathAll(List<Vector3f> source, RenderingBuffer update, float approach);
+	public abstract void pathAll(List<Vector3f> update, RenderingBuffer source, float approach);
 
-	public abstract void path(Vector3f source, RenderingBuffer update, float approach);
+	public abstract void path(Vector3f update, RenderingBuffer source, float approach);
 
-	public abstract void pointAll(List<Vector3f> source, RenderingBuffer update, float approach);
+	public abstract void pointAll(List<Vector3f> update, RenderingBuffer source, float approach);
 
-	public abstract void point(Vector3f source, RenderingBuffer update, float approach);
+	public abstract void point(Vector3f update, RenderingBuffer source, float approach);
 }

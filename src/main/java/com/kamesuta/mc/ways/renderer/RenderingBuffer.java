@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 
 import java.io.Closeable;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -26,8 +27,7 @@ public class RenderingBuffer implements Closeable {
 	public RenderingBuffer() {
 		this.vbo_vertex_handle = glGenBuffers();
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
-		glBufferData(GL_ARRAY_BUFFER, capacity, GL_DYNAMIC_DRAW);
-//		glBufferSubData(GL_ARRAY_BUFFER, 0, vertex_data);
+		glBufferData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * capacity, GL_DYNAMIC_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -35,7 +35,7 @@ public class RenderingBuffer implements Closeable {
 		return vbo_vertex_handle;
 	}
 
-	public int last() {
+	public int size() {
 		return last_pos;
 	}
 
@@ -46,14 +46,14 @@ public class RenderingBuffer implements Closeable {
 	public void render(int mode) {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
 		glVertexPointer(vertex_size, GL_FLOAT, 0, 0l);
-		glDrawArrays(mode, 0, vertex_size * last_pos);
+		glDrawArrays(mode, 0, last_pos);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	public RenderingBuffer add(Vector3f vec) {
-		last_pos++;
 		array_cache.add(vec);
 		set(last_pos, toBuffer(vec));
+		last_pos++;
 		return this;
 	}
 
@@ -72,9 +72,11 @@ public class RenderingBuffer implements Closeable {
 
 	protected void set(int pos, FloatBuffer buf) {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
-		if (last_pos > capacity) {
+		if (last_pos >= capacity) {
 			capacity += capacity_chunk;
-			glBufferData(GL_ARRAY_BUFFER, capacity, GL_DYNAMIC_DRAW);
+			ByteBuffer buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY, null);
+			glBufferData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * capacity, GL_DYNAMIC_DRAW);
+			glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
 		}
 		glBufferSubData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * pos, buf);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
