@@ -20,33 +20,20 @@ public enum RenderingPath {
 
 		@Override
 		public void path(Vector3f update, RenderingBuffer source, float approach) {
+			Vector3f last = source.get(source.size()-1);
 			for (int i = 0; i < source.size(); i++) {
 				Vector3f b = source.get(i);
 				if (update.lengthSquaredTo(b) < approach) {
-					if (0 <= i-1 && b != source.get(i-1))
+					if (b != last)
 						source.add(b);
 					return;
 				}
 			}
 			source.add(update);
 		}
-
-		@Override
-		public void pointAll(List<Vector3f> update, RenderingBuffer source, float approach) {
-			this.pathAll(update, source, approach);
-		}
-
-		@Override
-		public void point(Vector3f update, RenderingBuffer source, float approach) {
-
-		}
 	};
 
 	public abstract void pathAll(List<Vector3f> update, RenderingBuffer source, float approach);
 
 	public abstract void path(Vector3f update, RenderingBuffer source, float approach);
-
-	public abstract void pointAll(List<Vector3f> update, RenderingBuffer source, float approach);
-
-	public abstract void point(Vector3f update, RenderingBuffer source, float approach);
 }

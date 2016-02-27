@@ -6,23 +6,24 @@ import static org.lwjgl.opengl.GL15.*;
 import java.io.Closeable;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.lwjgl.BufferUtils;
 
+import com.kamesuta.mc.ways.reference.Reference;
 import com.kamesuta.mc.ways.util.vector.Vector3f;
 
 public class RenderingBuffer implements Closeable {
-	public static final int capacity_chunk = 1000;
+	public static final int capacity_chunk = 10;
 
 	public static final int BYTES_PER_FLOAT = 4; // Float byte size
 	public static final int vertex_size = 3; // X, Y, Z,
 
-	private ArrayList<Vector3f> array_cache = new ArrayList<Vector3f>();
 	private final int vbo_vertex_handle;
 	private final FloatBuffer vertex_data = BufferUtils.createFloatBuffer(vertex_size);
 	private int capacity = capacity_chunk;
 	private int last_pos = 0;
+	private Vector3f[] array_cache = new Vector3f[capacity];
 
 	public RenderingBuffer() {
 		this.vbo_vertex_handle = glGenBuffers();
@@ -40,7 +41,10 @@ public class RenderingBuffer implements Closeable {
 	}
 
 	public Vector3f get(int pos) {
-		return array_cache.get(pos);
+		if (0 <= pos && pos < last_pos)
+			return array_cache[pos];
+		else
+			return null;
 	}
 
 	public void render(int mode) {
@@ -51,35 +55,56 @@ public class RenderingBuffer implements Closeable {
 	}
 
 	public RenderingBuffer add(Vector3f vec) {
-		array_cache.add(vec);
-		set(last_pos, toBuffer(vec));
+		extend(last_pos);
+		setGL(last_pos, toBuffer(vec));
+		array_cache[last_pos] = vec;
 		last_pos++;
+		Reference.logger.info(last_pos + ":" + capacity);
 		return this;
 	}
 
-	public RenderingBuffer set(int pos, Vector3f vec) {
-		array_cache.set(pos, vec);
-		set(pos, toBuffer(vec));
+/*	public RenderingBuffer add(Collection<Vector3f> veclist) {
+		for (Vector3f vec : veclist) {
+			add(vec);
+		}
 		return this;
 	}
-
-	protected FloatBuffer toBuffer(Vector3f vec) {
+*/
+/*	public RenderingBuffer set(int pos, Vector3f vec) {
+		setGL(pos, toBuffer(vec));
+		array_cache[pos] = vec;
+		return this;
+	}
+*/
+	private FloatBuffer toBuffer(Vector3f vec) {
 		vertex_data.rewind();
 		vertex_data.put(vec.x).put(vec.y).put(vec.z);
 		vertex_data.flip();
 		return vertex_data;
 	}
 
-	protected void set(int pos, FloatBuffer buf) {
+	private void setGL(int pos, FloatBuffer buf) {
 		glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
-		if (last_pos >= capacity) {
-			capacity += capacity_chunk;
-			ByteBuffer buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY, null);
-			glBufferData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * capacity, GL_DYNAMIC_DRAW);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
-		}
 		glBufferSubData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * pos, buf);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	private void extend(int size) {
+		if (size >= capacity) {
+			capacity += capacity_chunk;
+			// Array Extend
+			{
+				array_cache = Arrays.copyOf(array_cache, capacity);
+			}
+			// GL Extend
+			{
+				glBindBuffer(GL_ARRAY_BUFFER, vbo_vertex_handle);
+				ByteBuffer buffer = glMapBuffer(GL_ARRAY_BUFFER, GL_READ_ONLY, null);
+				glBufferData(GL_ARRAY_BUFFER, BYTES_PER_FLOAT * vertex_size * capacity, GL_DYNAMIC_DRAW);
+				glBufferSubData(GL_ARRAY_BUFFER, 0, buffer);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+			}
+		}
 	}
 
 	@Override

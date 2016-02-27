@@ -9,7 +9,7 @@ import com.kamesuta.mc.ways.util.vector.Vector3f;
 
 public class Way implements Serializable {
 	private final ArrayList<Vector3f> way;
-	private transient RenderingBuffer renderingwaypath = new RenderingBuffer();
+	private transient RenderingBuffer renderingwaypath = new RenderingBuffer();;
 //	private transient List<Vector3f> renderingwaypoint;
 	public static final int limit = 5*5;
 	public static final int near = 10;
@@ -34,6 +34,9 @@ public class Way implements Serializable {
 	}
 
 	public void add(Vector3f node) {
+//		if (renderingwaypath.size() < way.size()) {
+//			RenderingPath.Cave.pathAll(way, renderingwaypath, limit);
+//		}
 		way.add(node);
 		RenderingPath.Cave.path(node, renderingwaypath, limit);
 	}

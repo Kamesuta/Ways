@@ -26,6 +26,7 @@ public class GuiWaySave extends GuiScreenBase {
 	private GuiTextField tfOffset;
 	private GuiButton btnOffsetDec;
 	private GuiButton btnOffsetInc;
+	private GuiButton btnDepth = null;
 
 	private String filename = "";
 
@@ -77,6 +78,9 @@ public class GuiWaySave extends GuiScreenBase {
 
 		this.btnOffsetInc = new GuiButton(id++, this.width - 100, this.height - 60, 20, 20, I18n.format(Names.Gui.Save.OFFSET_INC));
 		this.buttonList.add(this.btnOffsetInc);
+
+		this.btnDepth = new GuiButton(id++, this.width - 30, this.height - 85, 20, 20, Ways.proxy.isDepth ? this.strOn : this.strOff);
+		this.buttonList.add(this.btnDepth);
 	}
 
 	@Override
@@ -105,6 +109,9 @@ public class GuiWaySave extends GuiScreenBase {
 					this.filename = "";
 					this.tfFilename.setText(this.filename);
 				}
+			} else if (guiButton.id == this.btnDepth.id) {
+				Ways.proxy.isDepth = !Ways.proxy.isDepth;
+				this.btnDepth.displayString = Ways.proxy.isDepth ? this.strOn : this.strOff;
 			}
 		}
 	}

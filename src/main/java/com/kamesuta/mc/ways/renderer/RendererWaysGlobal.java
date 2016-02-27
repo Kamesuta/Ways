@@ -44,7 +44,10 @@ public class RendererWaysGlobal {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glDisable(GL11.GL_LIGHTING);
 		GL11.glDisable(GL11.GL_TEXTURE_2D);
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		if (Ways.proxy.isDepth)
+			GL11.glDisable(GL11.GL_DEPTH_TEST);
+		else
+			GL11.glEnable(GL11.GL_DEPTH_TEST);
 		GL11.glLineWidth(1f);
 		GL11.glPointSize(2f);
 

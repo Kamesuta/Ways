@@ -14,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 
 public abstract class CommonProxy {
     public boolean isRecording = false;
+    public boolean isDepth = false;
     public boolean isSaveEnabled = true;
     public boolean isLoadEnabled = true;
 
